@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" oninput="g(this.value)" id="aa">
+  <textarea name="" id="a" rows="30" style="width: 100%"></textarea>
+  <canvas id="myCanvas" style="opacity:0"></canvas>
+</body>
+<script>
+  function g(value) {
+    var txt = value
+    var size = 8
+
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.font = size + "px Microsoft YaHei";
+    var obj = ctx.measureText(txt)
+    var width = Math.ceil(obj.width)
+    var height = size + 3
+    c.width = width
+    c.height = height
+
+    ctx.fillText(txt, 0, size + 1.5);
+
+    var gchart = function (number) {
+      return number > 85 ? number > 170 ? "===" : '---' : '   '
+      // return number > 0 ? "===" : '   '
+    }
+
+    var data = ctx.getImageData(0, 0, width, height)
+    var arr = []
+    for (var i = 0; i < data.data.length; i += 4) {
+      if (i / 4 % width == 0 && i !== 0) {
+        arr.push("\n");
+      }
+      arr.push(gchart(data.data[i + 3]))
+    }
+    a.value = arr.join('')
+  }
+
+</script>
+
+</html>
